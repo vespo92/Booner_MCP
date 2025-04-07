@@ -1,0 +1,58 @@
+# SSH Configuration Template for Booner MCP System
+# This file should be used to generate SSH configs for inter-machine communication
+
+# Global settings
+Host *
+    StrictHostKeyChecking yes
+    UserKnownHostsFile ~/.ssh/known_hosts
+    IdentitiesOnly yes
+    ForwardAgent no
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    ConnectTimeout 10
+
+# Booner_Ollama (LLM Server)
+Host booner-ollama
+    HostName 10.0.0.1
+    User mcp-service
+    Port 22
+    IdentityFile ~/.ssh/mcp_id_ed25519
+    LogLevel INFO
+
+# Booner_MCP (Management Server)
+Host booner-mcp
+    HostName 10.0.0.4
+    User mcp-service
+    Port 22
+    IdentityFile ~/.ssh/mcp_id_ed25519
+    LogLevel INFO
+
+# OPN_IaC (Infrastructure Server)
+Host opn-iac
+    HostName 10.0.0.2
+    User mcp-service
+    Port 22
+    IdentityFile ~/.ssh/mcp_id_ed25519
+    LogLevel INFO
+
+# Worker Node 1
+Host worker-1
+    HostName 10.0.200.21
+    User mcp-service
+    Port 22
+    IdentityFile ~/.ssh/mcp_id_ed25519
+    LogLevel INFO
+
+# Worker Node 2
+Host worker-2
+    HostName 10.0.201.17
+    User mcp-service
+    Port 22
+    IdentityFile ~/.ssh/mcp_id_ed25519
+    LogLevel INFO
+
+# NOTES:
+# 1. Replace "mcp-service" with your actual service account username
+# 2. Generate SSH keys using: ssh-keygen -t ed25519 -f ~/.ssh/mcp_id_ed25519 -C "MCP Service Account"
+# 3. Distribute public keys to each machine using ansible or manual methods
+# 4. Ensure proper permissions: chmod 600 ~/.ssh/mcp_id_ed25519

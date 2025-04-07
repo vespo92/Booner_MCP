@@ -1,0 +1,40 @@
+# Configuration for Worker-1
+# IP: 10.0.200.21
+
+server_name: "worker-1"
+server_role: "worker"
+server_ip: "10.0.200.21"
+
+# Hardware configuration
+hardware:
+  cpu: "Ryzen 5 3600"
+  ram_gb: 32
+  storage_gb: 512
+  storage_type: "NVMe"
+
+# Network configuration
+network:
+  subnet: "10.0.200.0/24"
+  gateway: "10.0.200.1"
+  dns:
+    - "10.0.0.1"
+    - "1.1.1.1"
+  firewall_rules:
+    - allow_from: "10.0.0.4"  # MCP
+    - allow_from: "10.0.0.2"  # IaC
+
+# Services
+services:
+  - name: "health_monitor"
+    enabled: true
+    port: 9100
+  - name: "task_runner"
+    enabled: true
+    port: 8080
+
+# Deployment information
+deployment:
+  template: "default_server"
+  last_deployed: null
+  deployed_by: null
+  managed_by: "mcp"

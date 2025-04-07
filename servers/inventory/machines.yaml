@@ -1,0 +1,65 @@
+# Booner MCP Server Inventory
+# This file tracks all server machines in the MCP ecosystem
+
+machines:
+  # Core Infrastructure
+  - name: "booner-ollama"
+    hostname: "Booner_Ollama"
+    ip: "10.0.0.1"
+    role: "llm_server"
+    hardware:
+      cpu: "Ryzen 7 5700x3d"
+      ram_gb: 64
+      storage: "1TB NVMe"
+      gpu: "RTX 4070 Ti Super"
+    status: "planned"
+    managed_by: "mcp"
+    
+  - name: "booner-mcp"
+    hostname: "Booner_MCP"
+    ip: "10.0.0.4"
+    role: "management"
+    hardware:
+      cpu: "Ryzen 9 3900x"
+      ram_gb: 64
+      storage: "1TB NVMe"
+      gpu: "Quadro P4000"
+    status: "in_progress"
+    managed_by: "manual"
+    
+  - name: "opn-iac"
+    hostname: "OPN_IaC"
+    ip: "10.0.0.2"
+    role: "infrastructure"
+    hardware:
+      cpu: "Xeon E5-2680v4"
+      ram_gb: 16
+      storage: "Unknown"
+      gpu: "RTX 3050 8GB"
+    status: "planned"
+    managed_by: "mcp"
+  
+  # Worker Nodes
+  - name: "worker-1"
+    hostname: "WORKER-1"
+    ip: "10.0.200.21"
+    role: "worker"
+    hardware:
+      cpu: "Ryzen 5 3600"
+      ram_gb: 32
+      storage: "512GB NVMe"
+      gpu: "None"
+    status: "planned"
+    managed_by: "mcp"
+    
+  - name: "worker-2"
+    hostname: "WORKER-2"
+    ip: "10.0.201.17"
+    role: "worker"
+    hardware:
+      cpu: "Ryzen 7 5700x3d"
+      ram_gb: 32
+      storage: "250GB SSD"
+      gpu: "None"
+    status: "planned"
+    managed_by: "mcp"

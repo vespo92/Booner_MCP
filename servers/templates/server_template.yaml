@@ -1,0 +1,67 @@
+# Server Template Configuration
+# To be used with Pulumi deployments
+
+template_name: "default_server"
+description: "Default server configuration template"
+version: "1.0.0"
+
+# Hardware requirements
+hardware:
+  min_cpu_cores: 4
+  min_ram_gb: 8
+  min_storage_gb: 100
+
+# Network configuration
+network:
+  ip_assignment: "static"  # Options: static, dhcp
+  firewall_profile: "standard"  # Options: strict, standard, open
+  
+# Software stack
+software:
+  base_image: "ubuntu-server-22.04"
+  packages:
+    - docker
+    - python3
+    - python3-pip
+    - git
+    - curl
+    - wget
+    - nodejs
+  services:
+    - docker.service
+    - ssh.service
+
+# Access configuration
+access:
+  ssh_enabled: true
+  ssh_key_authentication_only: true
+  authorized_machines:
+    - 10.0.0.4  # Booner_MCP
+    - 10.0.0.2  # OPN_IaC
+  
+# Monitoring
+monitoring:
+  enabled: true
+  metrics:
+    - cpu_usage
+    - memory_usage
+    - disk_usage
+    - network_traffic
+  alert_thresholds:
+    cpu_high: 80
+    memory_high: 80
+    disk_high: 85
+
+# Deployment parameters
+deployment:
+  pulumi_stack: "dev"
+  region: "local"
+  tags:
+    environment: "development"
+    managed_by: "booner_mcp"
+
+# Custom variables - to be replaced during deployment
+variables:
+  SERVER_NAME: "${server_name}"
+  SERVER_ROLE: "${server_role}"
+  SERVER_IP: "${server_ip}"
