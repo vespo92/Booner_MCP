@@ -1,0 +1,70 @@
+{
+  "ollama": {
+    "base_url": "http://localhost:11434",
+    "models": ["mixtral"]
+  },
+  "mcp": {
+    "servers": {
+      "filesystem": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/allowed/files"],
+        "enabled": true
+      },
+      "git": {
+        "command": "uvx",
+        "args": ["mcp-server-git"],
+        "enabled": true
+      },
+      "time": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-time"],
+        "enabled": true
+      },
+      "memory": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-memory"],
+        "enabled": true
+      },
+      "postgres": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://localhost/mcpdb"],
+        "enabled": false
+      },
+      "puppeteer": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+        "enabled": false
+      }
+    }
+  },
+  "agents": {
+    "deployment_targets": {
+      "web_server": {
+        "host": "192.168.1.101",
+        "ssh_key": "/path/to/ssh_key",
+        "user": "ubuntu",
+        "allowed_actions": ["deploy", "restart", "status"]
+      },
+      "game_server": {
+        "host": "192.168.1.102",
+        "ssh_key": "/path/to/ssh_key",
+        "user": "ubuntu",
+        "allowed_actions": ["deploy", "restart", "status"]
+      },
+      "database_server": {
+        "host": "192.168.1.103",
+        "ssh_key": "/path/to/ssh_key",
+        "user": "ubuntu",
+        "allowed_actions": ["backup", "restore", "migrate"]
+      }
+    }
+  },
+  "storage": {
+    "truenas": {
+      "nfs_mount_points": {
+        "hdd": "/mnt/truenas/hdd",
+        "ssd": "/mnt/truenas/ssd"
+      }
+    }
+  }
+}

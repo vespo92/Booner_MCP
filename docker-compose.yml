@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: booner-mcp-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./config:/app/config
+      - ./agents:/app/agents
+      - ./api:/app/api
+      - ./servers:/app/servers
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+    depends_on:
+      - ollama
+    restart: unless-stopped
+    networks:
+      - booner-net
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: booner-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    networks:
+      - booner-net
+
+networks:
+  booner-net:
+    driver: bridge
+
+volumes:
+  ollama-data:
