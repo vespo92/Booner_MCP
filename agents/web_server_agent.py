@@ -262,11 +262,12 @@ class WebServerAgent(BaseAgent):
             target_host = self._get_default_target_host("web_server")
         
         # Create a Nginx configuration task for the agent
+        ssl_text = "Enable SSL using Lets Encrypt" if enable_ssl else "Use HTTP only (no SSL)"
         task_description = (
             f"Configure Nginx as a reverse proxy for the {app_type} application named '{app_name}' on {target_host}. "
             f"Use domain name: {domain_name} "
             f"Proxy to the application running on port {app_port} "
-            f"{'Enable SSL using Let\\'s Encrypt' if enable_ssl else 'Use HTTP only (no SSL)'} "
+            f"{ssl_text} "
             f"Ensure proper HTTP headers and caching for a {app_type} application."
         )
         
