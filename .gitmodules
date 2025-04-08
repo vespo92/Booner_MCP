@@ -1,0 +1,3 @@
+[submodule "booner-mcp-web"]
+	path = booner-mcp-web
+	url = https://github.com/vespo92/booner-mcp-web.git
