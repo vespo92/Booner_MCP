@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # API Service from main project
   api:
     build: .
     container_name: booner-mcp-api
@@ -12,27 +13,28 @@ services:
       - ./api:/app/api
       - ./servers:/app/servers
     environment:
-      - OLLAMA_BASE_URL=http://ollama:11434
-    depends_on:
-      - ollama
+      - OLLAMA_BASE_URL=http://10.0.0.10:11434
+      - AUTH_SECRET=${AUTH_SECRET:-your_default_auth_secret}  # Auth secret for API
+      - NODE_ENV=production
     restart: unless-stopped
     networks:
       - booner-net
 
-  ollama:
-    image: ollama/ollama:latest
-    container_name: booner-ollama
+  # Web UI Service from submodule
+  web:
+    build:
+      context: ./booner-mcp-web
+      dockerfile: Dockerfile
+    container_name: booner-mcp-web
     ports:
-      - "11434:11434"
-    volumes:
-      - ollama-data:/root/.ollama
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://api:8000  # Internal network reference
+      - NEXT_PUBLIC_OLLAMA_API_URL=http://10.0.0.10:11434
+      - NEXT_PUBLIC_AUTH_SECRET=${AUTH_SECRET:-your_default_auth_secret}
+    depends_on:
+      - api
     restart: unless-stopped
     networks:
       - booner-net
@@ -42,4 +44,4 @@ networks:
     driver: bridge
 
 volumes:
-  ollama-data:
+  mcp-data:
