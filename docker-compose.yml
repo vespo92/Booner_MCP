@@ -13,7 +13,7 @@ services:
       - ./api:/app/api
       - ./servers:/app/servers
     env_file:
-      - .env.prod
+      - .env
     environment:
       - OLLAMA_BASE_URL=http://10.0.0.10:11434
       - AUTH_SECRET=${AUTH_SECRET:-your_default_auth_secret}  # Auth secret for API
@@ -29,14 +29,18 @@ services:
     build:
       context: ./booner-mcp-web
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://10.0.0.4:8000  # External URL for browser access
+        - NEXT_PUBLIC_OLLAMA_API_URL=http://10.0.0.10:11434
+        - NEXT_PUBLIC_AUTH_SECRET=${AUTH_SECRET:-your_default_auth_secret}
     container_name: booner-mcp-web
     ports:
       - "3000:3000"
     env_file:
-      - .env.prod
+      - .env
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=http://api:8000  # Internal network reference
+      - NEXT_PUBLIC_API_URL=http://10.0.0.4:8000  # External URL for browser access
       - NEXT_PUBLIC_OLLAMA_API_URL=http://10.0.0.10:11434
       - NEXT_PUBLIC_AUTH_SECRET=${AUTH_SECRET:-your_default_auth_secret}
       - NEXT_PUBLIC_ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
