@@ -29,37 +29,6 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  # Web UI Service from submodule
-  web:
-    build:
-      context: ./booner-mcp-web
-      dockerfile: Dockerfile
-      args:
-        - NEXT_PUBLIC_API_URL=http://10.0.0.4:8000  # Use host IP for browser access
-        - NEXT_PUBLIC_OLLAMA_API_URL=http://10.0.0.10:11434
-        - NEXT_PUBLIC_AUTH_SECRET=${AUTH_SECRET:-your_default_auth_secret}
-    container_name: booner-mcp-web
-    ports:
-      - "3000:3000"
-    env_file:
-      - .env
-    environment:
-      - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=http://10.0.0.4:8000  # Must match host's IP address
-      - NEXT_PUBLIC_OLLAMA_API_URL=http://10.0.0.10:11434
-      - NEXT_PUBLIC_AUTH_SECRET=${AUTH_SECRET:-your_default_auth_secret}
-      - NEXT_PUBLIC_ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
-      - NEXT_PUBLIC_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
-    depends_on:
-      - api
-    restart: unless-stopped
-    networks:
-      - booner-net
-    # Add IP resolution for host connections
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-      - "10.0.0.4:host-gateway"  # Map host IP to gateway
-
 networks:
   booner-net:
     driver: bridge

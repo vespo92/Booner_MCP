@@ -15,20 +15,24 @@ This project allows AI agents to interact with local infrastructure, deploy and 
   - Provides AI capabilities to the MCP system
   - Hardware: AMD 5700X3D, 4070 Ti Super, 64GB RAM, Quadro P4000
 
-- **Machine 2 (Booner_MCP & booner-mcp-web - 10.0.0.4)**:
+- **Machine 2 (Booner_MCP & agent - 10.0.0.4)**:
   - Runs the MCP core management API
   - Runs the Next.js web interface
   - Hardware: Ryzen 7 5700X3D, 32GB RAM
+  - Worker Agent for Agentic Coding
+
+- **Machine 3 (booner-mcp-web & agent - 10.0.0.4)**:
+  - Runs the Web GUI to interact with MCP & Ollama
+  - Worker Agent for Agentic Coding
 
 - **Machine 3 (OPN_IaC - 10.0.0.2)**:
   - Runs infrastructure as code tools
-  - Manages provisioning of game and web servers
+  - Dedicated OPNSense Network API
 
 - **Deployment Targets (Machine N)**:
   - Run game servers, web applications, etc.
   - Hardware examples:
-    - Ryzen 5 3600, 32GB RAM
-    - E5-2680 v4, 16GB RAM, RTX 3050 8GB
+  - E5-2680 v4, 16GB RAM, RTX 3050 8GB
 
 - **Storage**: TrueNAS with 8TB HDD & 2TB SSD (NFS shared)
 
@@ -45,7 +49,6 @@ This project allows AI agents to interact with local infrastructure, deploy and 
 - `servers/`: MCP server implementations for different infrastructure tasks
 - `api/`: API server for agent communication
 - `config/`: Configuration files for different environments and systems
-- `booner-mcp-web/`: Web UI submodule for the management interface
 
 ## Setup & Deployment
 
@@ -100,20 +103,3 @@ git add .
 git commit -m "Your commit message"
 git push origin main
 ```
-
-### Working with the Web UI Submodule
-
-```bash
-cd Booner_MCP/booner-mcp-web
-# Make changes
-git add .
-git commit -m "Your web UI changes"
-git push origin master
-
-# Update the submodule reference in the main project
-cd ..
-git add booner-mcp-web
-git commit -m "Update web UI submodule"
-git push origin main
-```
-
