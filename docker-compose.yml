@@ -23,6 +23,10 @@ services:
     restart: unless-stopped
     networks:
       - booner-net
+    hostname: api
+    # Add in-container network alias to make service accessible as 'api'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   # Web UI Service from submodule
   web:
@@ -30,7 +34,7 @@ services:
       context: ./booner-mcp-web
       dockerfile: Dockerfile
       args:
-        - NEXT_PUBLIC_API_URL=http://10.0.0.4:8000  # External URL for browser access
+        - NEXT_PUBLIC_API_URL=http://localhost:8000  # Use localhost for browser access
         - NEXT_PUBLIC_OLLAMA_API_URL=http://10.0.0.10:11434
         - NEXT_PUBLIC_AUTH_SECRET=${AUTH_SECRET:-your_default_auth_secret}
     container_name: booner-mcp-web
@@ -40,7 +44,8 @@ services:
       - .env
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=http://10.0.0.4:8000  # External URL for browser access
+      - NEXT_PUBLIC_API_URL=http://localhost:8000  # For browser access
+      - INTERNAL_API_URL=http://api:8000            # For container-to-container communication
       - NEXT_PUBLIC_OLLAMA_API_URL=http://10.0.0.10:11434
       - NEXT_PUBLIC_AUTH_SECRET=${AUTH_SECRET:-your_default_auth_secret}
       - NEXT_PUBLIC_ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
@@ -50,6 +55,8 @@ services:
     restart: unless-stopped
     networks:
       - booner-net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 networks:
   booner-net:

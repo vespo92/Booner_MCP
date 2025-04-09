@@ -15,7 +15,7 @@ This project allows AI agents to interact with local infrastructure, deploy and 
   - Provides AI capabilities to the MCP system
   - Hardware: AMD 5700X3D, 4070 Ti Super, 64GB RAM, Quadro P4000
 
-- **Machine 2 (Booner_MCP & booner-mcp-web - 10.0.0.1)**:
+- **Machine 2 (Booner_MCP & booner-mcp-web - 10.0.0.4)**:
   - Runs the MCP core management API
   - Runs the Next.js web interface
   - Hardware: Ryzen 7 5700X3D, 32GB RAM
@@ -117,6 +117,3 @@ git commit -m "Update web UI submodule"
 git push origin main
 ```
 
-## License
-
-[License to be added]
