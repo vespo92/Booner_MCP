@@ -17,7 +17,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from agents.base_agent import InfrastructureAgent
 from agents.game_server_agent import GameServerAgent
 from agents.web_server_agent import WebServerAgent
-from system_monitor import system_monitor
+from api.system_monitor import system_monitor
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)

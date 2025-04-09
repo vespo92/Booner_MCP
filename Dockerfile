@@ -41,6 +41,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # RUN npx -y @modelcontextprotocol/server-time
 # RUN npx -y @modelcontextprotocol/server-memory
 
+# Make sure Python can find the modules
+ENV PYTHONPATH=/app:$PYTHONPATH
+
 # Expose API port
 EXPOSE 8000
 
