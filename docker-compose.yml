@@ -20,6 +20,7 @@ services:
       - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
       - NODE_ENV=production
+      - HOST=0.0.0.0  # Explicitly bind to all interfaces
     restart: unless-stopped
     networks:
       - booner-net
@@ -34,7 +35,7 @@ services:
       context: ./booner-mcp-web
       dockerfile: Dockerfile
       args:
-        - NEXT_PUBLIC_API_URL=http://localhost:8000  # Use localhost for browser access
+        - NEXT_PUBLIC_API_URL=http://10.0.0.4:8000  # Use host IP for browser access
         - NEXT_PUBLIC_OLLAMA_API_URL=http://10.0.0.10:11434
         - NEXT_PUBLIC_AUTH_SECRET=${AUTH_SECRET:-your_default_auth_secret}
     container_name: booner-mcp-web
@@ -44,8 +45,7 @@ services:
       - .env
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=http://localhost:8000  # For browser access
-      - INTERNAL_API_URL=http://api:8000            # For container-to-container communication
+      - NEXT_PUBLIC_API_URL=http://10.0.0.4:8000  # Must match host's IP address
       - NEXT_PUBLIC_OLLAMA_API_URL=http://10.0.0.10:11434
       - NEXT_PUBLIC_AUTH_SECRET=${AUTH_SECRET:-your_default_auth_secret}
       - NEXT_PUBLIC_ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
@@ -55,8 +55,10 @@ services:
     restart: unless-stopped
     networks:
       - booner-net
+    # Add IP resolution for host connections
     extra_hosts:
       - "host.docker.internal:host-gateway"
+      - "10.0.0.4:host-gateway"  # Map host IP to gateway
 
 networks:
   booner-net:
