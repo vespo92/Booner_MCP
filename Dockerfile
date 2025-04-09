@@ -44,5 +44,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Expose API port
 EXPOSE 8000
 
-# Command to run the API
-CMD ["uvicorn", "api.app:app", "--host", "0.0.0.0", "--port", "8000"]
+# Command to run the API with WebSocket support
+CMD ["uvicorn", "api.app_with_websockets:app", "--host", "0.0.0.0", "--port", "8000"]
